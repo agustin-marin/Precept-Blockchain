@@ -1,6 +1,6 @@
 {
   "index":{
-      "fields":[{"timestamp.value": "desc"}, {"id": "desc" }]
+      "fields":[{"id": "desc" },{"timestamp.value": "desc"}]
   },
 
   "ddoc":"indexTimedlimitDoc",

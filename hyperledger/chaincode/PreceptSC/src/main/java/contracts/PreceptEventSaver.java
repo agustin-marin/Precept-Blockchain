@@ -16,6 +16,9 @@ import org.hyperledger.fabric.shim.ledger.QueryResultsIteratorWithMetadata;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,7 +35,7 @@ import java.util.List;
 public final class PreceptEventSaver implements ContractInterface {
     // Serializacion JSON
     private final Genson genson = new GensonBuilder().create();//.rename("context","@context").create();
-    private static int pageSize = 1;
+    private static int pageSize = 2;
 
     /**
      * Push data to the ledger
@@ -100,17 +103,19 @@ public final class PreceptEventSaver implements ContractInterface {
         long first = System.nanoTime();
         ChaincodeStub stub = ctx.getStub();
         int total = 0;
-
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime yearpls1 = LocalDateTime.of(now.getYear() + 1, now.getMonth(), now.getDayOfMonth(), now.getHour(), now.getMinute());
         JSONObject selectorJSON = new JSONObject();
-            selectorJSON.put("entityid", entityID);
+            selectorJSON.put("id", entityID).put("timestamp.value", new JSONObject().put("$lt",dtf.format(yearpls1)));
             selectorJSON = new JSONObject().put("selector",
                             selectorJSON)
                     .put("use_index", "_design/indexTimedlimitDoc") // index descendente por timestamp solo 1 respuesta
-                    .put("limit", 1);
-
+                    .put("limit", 1)
+                    .put("sort", List.of(new JSONObject().put("timestamp.value","desc")));
         String s = selectorJSON.toString();
         //HashMap<String, String> results = new HashMap<>();
-        JSONArray results = new JSONArray();
+        JSONObject results = new JSONObject().put("notfound","notfound");
         //QueryResultsIterator<KeyValue> result = stub.getQueryResult(s);
         String bookmark = "";
         int fetchedRecordsCount = 0;
@@ -130,7 +135,7 @@ public final class PreceptEventSaver implements ContractInterface {
             ChaincodeShim.QueryResponseMetadata metadata = queryResultWithPagination.getMetadata();
             fetchedRecordsCount = metadata.getFetchedRecordsCount();
             for (KeyValue keyValue : queryResultWithPagination) {
-                results.put(new JSONObject().put(keyValue.getKey(), new String(keyValue.getValue())));
+                results = new JSONObject( new String(keyValue.getValue()));
             }
             queryResultWithPagination = stub.getQueryResultWithPagination(s, pageSize, metadata.getBookmark());
             total += fetchedRecordsCount;
