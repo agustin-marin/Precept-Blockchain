@@ -81,20 +81,21 @@ public final class PreceptEventSaver implements ContractInterface {
     }
 
     /**
-     * @param json   json to publish(the entity/event)
+     * @param json json to publish(the entity/event)
      */
     @Transaction()
     public void publicarJson(Context ctx, final String json) {
         ChaincodeStub stub = ctx.getStub();
         JSONObject event = new JSONObject(json);
-        stub.putStringState(event.getString("id")+"-"+event.getJSONObject("timestamp").getString("value"),
+        stub.putStringState(event.getString("id") + "-" + event.getJSONObject("timestamp").getString("value"),
                 json);                                                              // sin procesar, guardo el evento o
-                                                                                    // entidad con clave
-                                                                                    // id - timestamp.value
+        // entidad con clave
+        // id - timestamp.value
     }
 
     /**
-     *devuelve el último valor publicado para el id (timestamp mas alto)
+     * devuelve el último valor publicado para el id (timestamp mas alto)
+     *
      * @param entityID Id del evento
      * @return
      */
@@ -107,15 +108,15 @@ public final class PreceptEventSaver implements ContractInterface {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime yearpls1 = LocalDateTime.of(now.getYear() + 1, now.getMonth(), now.getDayOfMonth(), now.getHour(), now.getMinute());
         JSONObject selectorJSON = new JSONObject();
-            selectorJSON.put("id", entityID).put("timestamp.value", new JSONObject().put("$lt",dtf.format(yearpls1)));
-            selectorJSON = new JSONObject().put("selector",
-                            selectorJSON)
-                    .put("use_index", "_design/indexTimedlimitDoc") // index descendente por timestamp solo 1 respuesta
-                    .put("limit", 1)
-                    .put("sort", List.of(new JSONObject().put("timestamp.value","desc")));
+        selectorJSON.put("id", entityID).put("timestamp.value", new JSONObject().put("$lt", dtf.format(yearpls1)));
+        selectorJSON = new JSONObject().put("selector",
+                        selectorJSON)
+                .put("use_index", "_design/indexTimedlimitDoc") // index descendente por timestamp solo 1 respuesta
+                .put("limit", 1)
+                .put("sort", List.of(new JSONObject().put("timestamp.value", "desc")));
         String s = selectorJSON.toString();
         //HashMap<String, String> results = new HashMap<>();
-        JSONObject results = new JSONObject().put("notfound","notfound");
+        JSONObject results = new JSONObject();
         //QueryResultsIterator<KeyValue> result = stub.getQueryResult(s);
         String bookmark = "";
         int fetchedRecordsCount = 0;
@@ -125,21 +126,23 @@ public final class PreceptEventSaver implements ContractInterface {
         QueryResultsIteratorWithMetadata<KeyValue> queryResultWithPagination = stub.getQueryResultWithPagination(s, pageSize, bookmark);
         long l = (System.nanoTime() - before) / 1_000_000_000;
         System.out.println("TIME TO query with pagination: " + l);
+        if (queryResultWithPagination.getMetadata().getFetchedRecordsCount() > 0)
+            do {
+                l = (System.nanoTime() - first) / 1_000_000_000;
+                if (l > 25) { // parar en 25 segundos
+                    break;
+                }
 
-        do {
-            l = (System.nanoTime() - first) / 1_000_000_000;
-            if (l > 25) { // parar en 25 segundos
-                break;
-            }
-
-            ChaincodeShim.QueryResponseMetadata metadata = queryResultWithPagination.getMetadata();
-            fetchedRecordsCount = metadata.getFetchedRecordsCount();
-            for (KeyValue keyValue : queryResultWithPagination) {
-                results = new JSONObject( new String(keyValue.getValue()));
-            }
-            queryResultWithPagination = stub.getQueryResultWithPagination(s, pageSize, metadata.getBookmark());
-            total += fetchedRecordsCount;
-        } while (fetchedRecordsCount > 0);
+                ChaincodeShim.QueryResponseMetadata metadata = queryResultWithPagination.getMetadata();
+                fetchedRecordsCount = metadata.getFetchedRecordsCount();
+                bookmark = metadata.getBookmark();
+                for (KeyValue keyValue : queryResultWithPagination) {
+                    System.out.println("PAGINATION REULST: " + new String(keyValue.getValue()));
+                    results = new JSONObject(new String(keyValue.getValue()));
+                }
+                queryResultWithPagination = stub.getQueryResultWithPagination(s, pageSize, bookmark);
+                total += fetchedRecordsCount;
+            } while (fetchedRecordsCount > 0);
 
         long ll = (System.nanoTime() - first) / 1_000_000_000;
         System.out.println("TIME TO query with pagination: " + ll);
@@ -147,6 +150,7 @@ public final class PreceptEventSaver implements ContractInterface {
             System.err.println("Error: TIMEOUT: more than 30 seconds on client, reset.");
         }
         //int seleccion = getpageSize(stub, s);
+        System.out.println("RESPONSE: " + new JSONObject().put("queryResult", results).toString());
         return new JSONObject().put("queryResult", results).toString();//.ut(p"count", total).toString();
     }
 
