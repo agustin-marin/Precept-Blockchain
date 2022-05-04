@@ -56,10 +56,9 @@ router.get('/evento', async function (req, res, next) {
 function start_worker(worker, res, req) {
     worker.on('message', (queryChaincodeResponseString) => {
         let queryChaincodeResponse = JSON.parse(queryChaincodeResponseString);
+        console.debug("workerResponse: "+ typeof queryChaincodeResponse+ " -> " +queryChaincodeResponse);
         if (typeof queryChaincodeResponse !== 'undefined'){
-            const enc = new TextDecoder("utf-8");
-            console.debug("no va esta vaina:   "+ enc.decode(JSON.parse(queryChaincodeResponseString)));
-            res.status(200).send(queryChaincodeResponse.queryResult);}
+            res.status(200).send(queryChaincodeResponse.queryResult)}
         else {
             res.status(500).send("posible error de TIMEOUT");
         }

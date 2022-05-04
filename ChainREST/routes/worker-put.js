@@ -44,7 +44,7 @@ const conf = {
                 url: "grpcs://10.208.211.22:7050",
                 tlsCACerts: {
                     path:
-                        "/home/debian/ChainREST/test/ordererOrganizations/odins.com/orderers/orderer.odins.com/msp/tlscacerts/tlsca.odins.com-cert.pem",
+                        "/usr/src/app/test/ordererOrganizations/odins.com/orderers/orderer.odins.com/msp/tlscacerts/tlsca.odins.com-cert.pem",
                 },
             }
         },
@@ -53,7 +53,7 @@ const conf = {
                 "url": "grpcs://10.208.211.22:7051",
                 tlsCACerts: {
                     path:
-                        "/home/debian/ChainREST/test/peerOrganizations/org1.odins.com/peers/peer0.org1.odins.com/msp/tlscacerts/tlsca.org1.odins.com-cert.pem",
+                        "/usr/src/app/test/peerOrganizations/org1.odins.com/peers/peer0.org1.odins.com/msp/tlscacerts/tlsca.org1.odins.com-cert.pem",
                 },
             },
         },
@@ -101,7 +101,7 @@ async function execution(reqString) {
     queryChaincode("publicarJson", [JSON.stringify(body)], {}).then(queryChaincodeResponse => {
         const {parentPort} = require('worker_threads');
         if (queryChaincodeResponse !== undefined && queryChaincodeResponse !== "undefined")
-            parentPort.postMessage(JSON.stringify(queryChaincodeResponse));
+            parentPort.postMessage("{}"); // publicarJson es una funcion void
     }).catch(error => {
     });
 }
