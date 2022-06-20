@@ -11,7 +11,7 @@ let gatewayOptions;
 let contract;
 
 router.get('/', function (req, res, next) {
-    res.status(200).send("This is the ledger endpoint GET \n Endpoints: \n gethistoricos?from=&to&entity&attribute");
+    res.status(200).send("This is the ledger endpoint GET \n Endpoints: \n /chain/events \n POST /chain/publish");
 });
 /*
 router.post('/pushdata', function (req, res, next) {
@@ -42,7 +42,7 @@ router.post('/pulldata/', function (req, res, next) {
 */
 
 // crea un hilo para pedir los historicos de un sensor
-router.get('/evento', async function (req, res, next) {
+router.get('/events', async function (req, res, next) {
     console.log("getEvent: " + new Date(Date.now()).toISOString());
 
     const worker = new Worker(worker_get);
@@ -66,22 +66,22 @@ function start_worker(worker, res, req) {
     worker.on('error', (error) => {
         console.log('FABRIC ERROR:-' + error);
         if (error.toString().includes('TIMEOUT')) { // Se ha producido un error de timeout
-            // RECREAR LA CONEXION?
-            res.status(500).send("ERROR de TIMEOUT");
+
+            res.status(500).send("ERROR TIMEOUT");
         } else {
-            res.status(500).send("ERROR desconocido: " + error.message);
+            res.status(500).send("Unknown ERROR: " + error.message);
             console.error(error.message + "\n" + error.stack);
         }
     });
     worker.on('exit', (code) => {
         if (code !== 0)
-            res.status(500).send("ERROR desconocido: El hilo se ha cerrado");
+            res.status(500).send("ERROR: Thread closed: code: "+code);
     });
     worker.postMessage(JSON.stringify(req));
 }
 
-router.post('/publicar', async function (req, res, next) {
-    console.log("publicar: " + new Date(Date.now()).toISOString());
+router.post('/publish', async function (req, res, next) {
+    console.log("publish: " + new Date(Date.now()).toISOString());
 
     const worker = new Worker(worker_put);
     start_worker(worker, res, req);

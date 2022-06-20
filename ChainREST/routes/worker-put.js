@@ -103,6 +103,8 @@ async function execution(reqString) {
         if (queryChaincodeResponse !== undefined && queryChaincodeResponse !== "undefined")
             parentPort.postMessage("{}"); // publicarJson es una funcion void
     }).catch(error => {
+        console.error("fabconn.publicarJson: " + error.toString())
+        throw error;
     });
 }
 

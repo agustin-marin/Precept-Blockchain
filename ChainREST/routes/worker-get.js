@@ -113,6 +113,8 @@ async function execution(reqString) {
             console.debug("WORKER: " + typeof queryChaincodeResponse + "  ->  " + JSON.stringify(queryChaincodeResponse.toString()))
             parentPort.postMessage(queryChaincodeResponse.toString());
     }).catch(error => {
+        console.error("fabconn.getEvent: " + error.toString())
+        throw error;
     });
 }
 
