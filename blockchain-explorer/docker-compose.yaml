@@ -37,6 +37,7 @@ services:
       - LOG_LEVEL_CONSOLE=debug
       - LOG_CONSOLE_STDOUT=true
       - DISCOVERY_AS_LOCALHOST=false
+    restart: always
     volumes:
       - ./config.json/:/opt/explorer/app/platform/fabric/config.json
       - ./connection-profile/:/opt/explorer/app/platform/fabric/connection-profile
