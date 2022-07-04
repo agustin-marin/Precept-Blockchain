@@ -1,0 +1,11 @@
+OrdererOrgs:
+  - Name: Orderer
+    Domain: odins.com
+    Specs:
+      - Hostname: orderer
+        SANS:
+          - "orderer.odins.com"
+          - "orderer"
+          - "localhost"
+          - "127.0.0.1"
+      

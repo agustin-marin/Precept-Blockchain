@@ -47,3 +47,7 @@ services:
     depends_on:
       explorerdb.mynetwork.com:
         condition: service_healthy
+    extra_hosts:
+      - peer0.org1.odins.com:127.0.0.1
+      - orderer.odins.com:127.0.0.1
+      - ca.org1.odins.com:127.0.0.1
