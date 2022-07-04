@@ -29,9 +29,9 @@ services:
     restart: always
     command: orderer
     volumes:
-    - ~/channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-    - ~/crypto-config/ordererOrganizations/odins.com/orderers/orderer.odins.com/msp:/var/hyperledger/orderer/msp
-    - ~/crypto-config/ordererOrganizations/odins.com/orderers/orderer.odins.com/tls/:/var/hyperledger/orderer/tls
+    - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+    - ./crypto-config/ordererOrganizations/odins.com/orderers/orderer.odins.com/msp:/var/hyperledger/orderer/msp
+    - ./crypto-config/ordererOrganizations/odins.com/orderers/orderer.odins.com/tls/:/var/hyperledger/orderer/tls
     - orderer.odins.com:/var/hyperledger/production/orderer
     ports:
       - "7050:7050"
