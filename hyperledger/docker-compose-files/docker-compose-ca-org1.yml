@@ -2,7 +2,6 @@ version: '3.4'
 
 services:
   ca.org1.odins.com:
-    container_name: ca.org1.odins.com
     image: hyperledger/fabric-ca
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
