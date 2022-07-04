@@ -13,9 +13,7 @@ tmux split-window  -h -d 'docker-compose -f ../docker-compose-ca-org1.yml up' \;
 tmux split-window  -v -d  'docker-compose -f ../docker-compose-peer0-org1.yml up' \;
 
 sleep 5
-docker-compose -f ../docker-compose-cli-peer0.yml up -d
-tmux select-pane -L
-tmux split-window -v 'docker exec -it cli bash -c "chmod +x ./scripts/crearCanal.sh; ./scripts/crearCanal.sh"'  \;
+docker-compose -f ../docker-compose-cli-peer0.yml up -d ; tmux select-pane -L ; sleep 5 ; tmux split-window -v 'docker exec -it cli bash -c "chmod +x ./scripts/crearCanal.sh; ./scripts/crearCanal.sh"'  \;
 tmux select-pane -U
 tmux a 
 
