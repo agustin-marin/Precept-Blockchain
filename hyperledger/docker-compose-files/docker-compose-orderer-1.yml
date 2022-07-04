@@ -7,6 +7,7 @@ volumes:
 
 services:
   orderer.odins.com:
+  container_name: orderer.odins.com
     image: hyperledger/fabric-orderer:2.4
     environment:
       - ORDERER_GENERAL_LOGLEVEL=INFO
