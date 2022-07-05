@@ -68,6 +68,7 @@ Now, the Smart Contract is installed.
 ### 5. start chain-REST and blockchain-explorer
 - On `Precept-Blockchain/ChainREST/scripts` do 
 ```
+bash generate-docker-image.sh
 bash run-chain-REST.sh
 ```
 - On `Precept-Blockchain/blockchain-explorer/scripts` do
