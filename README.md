@@ -95,7 +95,7 @@ Note: If the container gives an error it is possible that you may be trying to c
   - Credentials: bexplorer-bexplorerpw
 
 - `ChainREST` endpoint has 2 routes exposed on `port 3000`
-  - `IP:3000/chain/event`
+  - `IP:3000/chain/events`
     - method: GET
     - body: empty
     - params: [entityid]
