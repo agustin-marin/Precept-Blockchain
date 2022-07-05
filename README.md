@@ -36,7 +36,7 @@ After generating files, on `Precept-Blockchain/ChainREST/routes/worker-get.js` a
     },
 ```
 
-Copy crypto-config folder  generated to `Precept-Blockchain/ChainREST/`)
+Copy crypto-config folder  generated to `Precept-Blockchain/ChainREST/` and  `Precept-Blockchain/blockchain-explorer/`
 
 ### 3. deploy blockchain network 
 inside this folder `Precept-Blockchain/hyperledger/docker-compose-files/scripts` there are some scripts to deploy/destroy/etc the blockchain
