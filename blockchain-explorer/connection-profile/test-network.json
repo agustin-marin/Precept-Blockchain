@@ -50,12 +50,12 @@
 			"tlsCACerts": {
 				"path": "/tmp/crypto/peerOrganizations/org1.odins.com/peers/peer0.org1.odins.com/tls/ca.crt"
 			},
-			"url": "grpcs:///peer0.org1.odins.com:7051"
+			"url": "grpcs://peer0.org1.odins.com:7051"
 		}
 	},
 	"certificateAuthorities": {
 		"ca0": {
-			"url": "https:///ca.org1.odins.com:7054",
+			"url": "https://ca.org1.odins.com:7054",
 			"httpOptions": {
 				"verify": false
 			},
