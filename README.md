@@ -92,6 +92,7 @@ Note: If the container gives an error it is possible that you may be trying to c
 # Services
 
 - `Blockchain-explorer` exposes a dashboard to explore blocks and transactions confirmed in the ledger on `port 8080`. For example, You can go through tab blocks to get the list of saved blocks and by clicking on the transactions inside each block you can see the content of itself(read and write content to the ledger).
+  - Credentials: bexplorer-bexplorerpw
 
 - `ChainREST` endpoint has 2 routes exposed on `port 3000`
   - `IP:3000/chain/event`
