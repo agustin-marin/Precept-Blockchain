@@ -1,4 +1,6 @@
 set -x
+
+rm -rf ../../crypto-config  ../../channel-artifacts/
 ## Generar cryptografia
 ./cryptogen generate --config=../PeerOrgs1.yml --output="../../crypto-config" # Generar ficheros criptograficos
 ./cryptogen generate --config=../orderer.yaml --output="../../crypto-config" # Generar ficheros criptográficos
