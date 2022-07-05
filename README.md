@@ -21,9 +21,22 @@ To generate crypto material and config files on `Precept-Blockchain/hyperledger/
 ``` 
 bash generarFicherosTx.sh
 ```
+
+
 ### 2. put files on necessary directories (do once)
  
 It will generate files in `../crypto-config` and `../channel-artifacts` (see script). Copy theese folders to `Precept-Blockchain/hyperledger/docker-compose-files/`. (crypto material and config files used by docker containers.)
+
+After generating files, on `Precept-Blockchain/ChainREST/routes/worker-get.js` and `Precept-Blockchain/ChainREST/routes/worker-put.js` change: 
+```
+    identity: {
+        mspid: 'Org1MSP', // user
+        certificate: 'THIS to Precept-Blockchain/hyperledger/docker-compose-files/crypto-config/peerOrganizations/org1.odins.com/users/User1@org1.odins.com/msp/signcerts/User1@org1.odins.com-cert.pem file content',
+        privateKey: 'THIS to Precept-Blockchain/hyperledger/docker-compose-files/crypto-config/peerOrganizations/org1.odins.com/users/User1@org1.odins.com/msp/heystore/priv_sk file content',
+    },
+```
+
+Copy crypto-config folder  generated to `Precept-Blockchain/ChainREST/`)
 
 ### 3. deploy blockchain network 
 inside this folder `Precept-Blockchain/hyperledger/docker-compose-files/scripts` there are some scripts to deploy/destroy/etc the blockchain

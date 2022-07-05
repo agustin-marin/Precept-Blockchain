@@ -41,26 +41,26 @@ const conf = {
         },
         orderers: {
             "orderer.odins.com": {
-                url: "grpcs://10.208.211.22:7050",
+                url: "grpcs://orderer.odins.com:7050",
                 tlsCACerts: {
                     path:
-                        "/usr/src/app/test/ordererOrganizations/odins.com/orderers/orderer.odins.com/msp/tlscacerts/tlsca.odins.com-cert.pem",
+                        "/usr/src/app/crypto-config/ordererOrganizations/odins.com/orderers/orderer.odins.com/msp/tlscacerts/tlsca.odins.com-cert.pem",
                 },
             }
         },
         peers: {
             "peer0.org1.odins.com": {
-                "url": "grpcs://10.208.211.22:7051",
+                "url": "grpcs://peer0.org1.odins.com:7051",
                 tlsCACerts: {
                     path:
-                        "/usr/src/app/test/peerOrganizations/org1.odins.com/peers/peer0.org1.odins.com/msp/tlscacerts/tlsca.org1.odins.com-cert.pem",
+                        "/usr/src/app/crypto-config/peerOrganizations/org1.odins.com/peers/peer0.org1.odins.com/msp/tlscacerts/tlsca.org1.odins.com-cert.pem",
                 },
             },
         },
     },
     certificateAuthorities: {
         "ca.org1.odins.com": {
-            "url": "https://10.208.211.22:7054",
+            "url": "https://ca.org1.odins.com:7054",
             "httpOptions": {
                 "verify": false
             },
