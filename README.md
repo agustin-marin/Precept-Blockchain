@@ -88,7 +88,7 @@ bash run-chain-REST.sh
 ```
 bash run-blockchain-explorer.sh
 ```
-
+Note: If the container gives an error it is possible that you may be trying to create the blockchain explorer container/volume, which try to create a wallet with always the same id by the ca.odins.com container. So, to avoid that error. delete ca.odins.com container and volume and redeploy
 # Services
 
 - `Blockchain-explorer` exposes a dashboard to explore blocks and transactions confirmed in the ledger on `port 8080`. For example, You can go through tab blocks to get the list of saved blocks and by clicking on the transactions inside each block you can see the content of itself(read and write content to the ledger).
