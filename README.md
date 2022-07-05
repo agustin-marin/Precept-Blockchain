@@ -44,7 +44,7 @@ The smart contract source code is on `Precept-Blockchain/hyperledger/chaincode/P
 To install it on the blockchain, first, we have to build the gradle project on that folder with(every time a change on the SC is done):
 
 ```
-gradlew installDist
+./gradlew installDist
 ```
 
 It will generate a folder in `Precept-Blockchain/hyperledger/chaincode/PreceptSC/build/install` called `PreceptSC` with the builded project. Copy this folder to `Precept-Blockchain/hyperledger/docker-compose-files/chaincode` so it is accesible by containers.
