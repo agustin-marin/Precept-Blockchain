@@ -1,6 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0
 version: '2.1'
 
+networks:
+  local:
+    name: fabric_odins
+
 volumes:
   pgdata:
   walletstore:
@@ -22,6 +26,8 @@ services:
       retries: 5
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - local
 
   explorer.mynetwork.com:
     image: hyperledger/explorer:latest
@@ -48,7 +54,9 @@ services:
     depends_on:
       explorerdb.mynetwork.com:
         condition: service_healthy
-    extra_hosts:
-      - peer0.org1.odins.com:127.0.0.1
-      - orderer.odins.com:127.0.0.1
-      - ca.org1.odins.com:127.0.0.1
+#    extra_hosts:
+#      - peer0.org1.odins.com:127.0.0.1
+#      - orderer.odins.com:127.0.0.1
+#      - ca.org1.odins.com:127.0.0.1
+    networks:
+      - local

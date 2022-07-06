@@ -1,5 +1,7 @@
 version: '3.4'
-
+networks:
+  local:
+    name: fabric_odins
 volumes:
   orderer.odins.com:
 
@@ -35,3 +37,5 @@ services:
     - orderer.odins.com:/var/hyperledger/production/orderer
     ports:
       - "7050:7050"
+    networks:
+      - local

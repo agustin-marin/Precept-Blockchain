@@ -1,5 +1,7 @@
 version: '3.4'
-
+networks:
+  local:
+    name: fabric_odins
 
 services:
   chainREST.odins.com:
@@ -7,8 +9,10 @@ services:
     restart: always
     ports:
       - "3000:3000"
-    extra_hosts:
-      - peer0.org1.odins.com:127.0.0.1
-      - orderer.odins.com:127.0.0.1
-      - ca.org1.odins.com:127.0.0.1
+#    extra_hosts:
+#      - peer0.org1.odins.com:127.0.0.1
+#      - orderer.odins.com:127.0.0.1
+#      - ca.org1.odins.com:127.0.0.1
     restart: always
+    networks:
+      - local

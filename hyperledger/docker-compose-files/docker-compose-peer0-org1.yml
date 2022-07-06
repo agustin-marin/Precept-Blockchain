@@ -1,5 +1,9 @@
 version: '3.4'
 
+networks:
+  local:
+    name: fabric_odins
+
 volumes:
   peer0.org1.odins.com:
 
@@ -16,7 +20,7 @@ services:
       - CORE_CHAINCODE_EXECUTETIMEOUT=30s
       - CORE_PEER_KEEPALIVE_DELIVERYCLIENT_TIMEOUT=30s
       - CORE_PEER_KEEPALIVE_CLIENT_TIMEOUT=30s
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=debian_default
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fabric_odins
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
       - FABRIC_LOGGING_SPEC=info
       - CORE_PEER_TLS_ENABLED=true
@@ -69,3 +73,5 @@ services:
     # for odins map it to utilize Fauxton User Interface in dev environments.
     ports:
       - "5984:5984"
+    networks:
+      - local

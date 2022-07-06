@@ -1,5 +1,9 @@
 version: '3.4'
 
+networks:
+  local:
+    name: fabric_odins
+
 services:
   ca.org1.odins.com:
     image: hyperledger/fabric-ca
@@ -15,4 +19,5 @@ services:
     command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org1.odins.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/priv_sk -b admin:adminpw -d'
     volumes:
       - ./crypto-config/peerOrganizations/org1.odins.com/ca/:/etc/hyperledger/fabric-ca-server-config
-
+    networks:
+      - local
