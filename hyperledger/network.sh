@@ -207,8 +207,7 @@ if [ "$run_ChainREST" = true ]; then
     cd ../blockchain-explorer/scripts
     printPink "Dashboard..."
     printPink "running docker compose"
-    bash generate-docker-image.sh
-    printPink "Running docker compose"
-    bash run-chain-REST.sh
+    bash run-blockchain-explorer.sh
+
 fi
 
