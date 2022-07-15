@@ -148,14 +148,14 @@ function installSC {
 
   echo "running script to install smartcontract on peer container"
   #run script installSC on container named cli and redirect error to output
-  output=$(docker exec -it cli "sh scripts/installSC.sh PreceptSC 1" 2>&1)
+  output=$(docker exec -it cli sh scripts/installSC.sh PreceptSC 1 2>&1)
   echo $output
   # if output contains "but new definition must be sequence" then
   if [[ $output == *"but new definition must be sequence"* ]]; then
     echo "smart contract already installed, adding new version"
     # get number from substring
     number=$(echo $output | grep -o -E 'but new definition must be sequence [[:digit:]]+' | grep -o -E '[[:digit:]]+')
-    docker exec -it cli "sh scripts/installSC.sh PreceptSC "$number 2>&1
+    docker exec -it cli bash scripts/installSC.sh PreceptSC $number 2>&1
     # but new definition must be sequence \d+
   fi
 
