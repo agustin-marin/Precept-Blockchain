@@ -163,8 +163,8 @@ function installSC {
   cd chaincode/PreceptSC
   printPink "compiling smart contract"
   ./gradlew installDist
+    cp -r META-INF build/install/PreceptSC/
   cd build/install
-  cp -r META-INF build/install/PreceptSC/
   rm -r ../../../../docker-compose-files/chaincode/PreceptSC
   cp -r PreceptSC ../../../../docker-compose-files/chaincode/PreceptSC
 
