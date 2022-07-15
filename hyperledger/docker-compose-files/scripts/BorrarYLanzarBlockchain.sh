@@ -5,11 +5,11 @@ sh borrarTodo.sh
 sh borrarTodo.sh
 
 
-docker-compose -f ../docker-compose-orderer-1.yml up
+docker-compose -f ../docker-compose-orderer-1.yml up -d
 sleep 2
 
-docker-compose -f ../docker-compose-ca-org1.yml up
-docker-compose -f ../docker-compose-peer0-org1.yml up
+docker-compose -f ../docker-compose-ca-org1.yml up -d
+docker-compose -f ../docker-compose-peer0-org1.yml up -d
 
 sleep 5
 docker-compose -f ../docker-compose-cli-peer0.yml up -d
