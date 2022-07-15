@@ -125,6 +125,7 @@ function deployNetwork {
 
   cd docker-compose-files/scripts
   echo " running script to deploy blockchain network"
+  mkdir ../chaincode
   if [ "$generate_crypto" = true ]; then
     echo "-crypto flag was set, so we will delete everything and start from scratch"
     bash BorrarYLanzarBlockchain.sh
