@@ -67,29 +67,29 @@ function generateCryptoConfig {
         rm -rf crypto-config
     fi
     cd crypto-config-source/scripts
-    echo "1- generate crypto material and config files"
+    printPink "1- generate crypto material and config files"
     echo "."
     echo "."
     echo "."
     bash generarFicherosTx.sh
     if [ "$?" -ne 0 ]; then
-        echo "Failed to generate crypto material..."
+        printPink "Failed to generate crypto material..."
         exit 1
     fi
     echo
-    echo "Generate crypto material completed."
+    printPink "Generate crypto material completed."
 
     cd $DEFAULT_PWD
     ls -l crypto-config 
-    echo "2- put files on necessary directories"
-    echo "copying crypto config and channel artifacts to docker folder"
+    printPink "2- put files on necessary directories"
+    printPink "copying crypto config and channel artifacts to docker folder"
     cp -r crypto-config channel-artifacts docker-compose-files/
 
-    echo "copying crypto to ChainREST and blockchain explorer folders"
+    printPink "copying crypto to ChainREST and blockchain explorer folders"
     cp -r crypto-config ../ChainREST
     cp -r crypto-config ../blockchain-explorer
 
-    echo "copying new user X.509 identity to ChainREST files"
+    printPink "copying new user X.509 identity to ChainREST files"
     #replace line break of a file for a "\n" character in a new file
     certificate=$( sed  -z -e 's|\n|\\\\n|g' ./crypto-config/peerOrganizations/org1.odins.com/users/User1@org1.odins.com/msp/signcerts/User1@org1.odins.com-cert.pem)
     priv=$(sed  -z -e 's|\n|\\\\n|g' ./crypto-config/peerOrganizations/org1.odins.com/users/User1@org1.odins.com/msp/keystore/priv_sk)
@@ -103,13 +103,13 @@ function generateCryptoConfig {
     sed  -i -r "$s3" ../ChainREST/routes/worker-get.js
     sed  -i -r "$s4" ../ChainREST/routes/worker-put.js 
 
-    echo "Did it work?"
-    echo " certificate from crypto-config: " $certificate
+    printPink "Did it work?"
+    printPink " certificate from crypto-config:  $certificate"
 
-    echo " grep certificate from ChainREST/routes/worker-get.js: " $(grep  CERTIFICATE ../ChainREST/routes/worker-get.js)
+    printPink " grep certificate from ChainREST/routes/worker-get.js: " $(grep  CERTIFICATE ../ChainREST/routes/worker-get.js)
 
-        echo " private key from crypto-config: " $priv
-    echo " grep private key from ChainREST/routes/worker-get.js: " $(grep PRIVATE ../ChainREST/routes/worker-get.js)
+        printPink " private key from crypto-config:  $priv"
+    printPink " grep private key from ChainREST/routes/worker-get.js: " $(grep PRIVATE ../ChainREST/routes/worker-get.js)
     #bash redirect error output to /dev/null
 
   cd $DEFAULT_PWD
@@ -117,17 +117,17 @@ function generateCryptoConfig {
 
 # function to deploy hyperledger fabric blockchain network
 function deployNetwork {
-  echo "3- deploy blockchain network"
+  printPink "3- deploy blockchain network"
   #test if crypto-config folder exists, if not, run generateCryptoConfig function
   if [ ! -d "crypto-config" ]; then
       generateCryptoConfig
   fi
 
   cd docker-compose-files/scripts
-  echo " running script to deploy blockchain network"
+  printPink " running script to deploy blockchain network"
   mkdir ../chaincode
   if [ "$generate_crypto" = true ]; then
-    echo "-crypto flag was set, so we will delete everything and start from scratch"
+    printPink "-crypto flag was set, so we will delete everything and start from scratch"
     bash BorrarYLanzarBlockchain.sh
   else
     bash ReLanzarBlockchain.sh
@@ -138,21 +138,21 @@ function deployNetwork {
 }
 
 function installSC {
-  echo "4- install smart contract"
+  printPink "4- install smart contract"
   cd chaincode/PreceptSC
-  echo "compiling smart contract"
+  printPink "compiling smart contract"
   ./gradlew installDist
   cd build/install
   rm -r ../../../../docker-compose-files/chaincode/PreceptSC
   cp -r PreceptSC ../../../../docker-compose-files/chaincode/PreceptSC
 
-  echo "running script to install smartcontract on peer container"
+  printPink "running script to install smartcontract on peer container"
   #run script installSC on container named cli and redirect error to output
   output=$(docker exec -it cli sh scripts/installSC.sh PreceptSC 1 2>&1)
-  echo $output
+  printPink $output
   # if output contains "but new definition must be sequence" then
   if [[ $output == *"but new definition must be sequence"* ]]; then
-    echo "smart contract already installed, adding new version"
+    printPink "smart contract already installed, adding new version"
     # get number from substring
     number=$(echo $output | grep -o -E 'but new definition must be sequence [[:digit:]]+' | grep -o -E '[[:digit:]]+')
     docker exec -it cli bash scripts/installSC.sh PreceptSC $number 2>&1
@@ -172,6 +172,11 @@ if [ "$deploy_Network" = true ]; then
 fi
 
 if [ "$install_SC" = true ]; then
-    echo "Installing smart contract..."
+    printPink "Installing smart contract..."
     installSC
 fi
+
+#function to print argument in colour pink
+function printPink {
+  echo -e "\e[35m$1\e[0m"
+}
