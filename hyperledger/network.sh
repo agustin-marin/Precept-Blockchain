@@ -164,8 +164,10 @@ function installSC {
   printPink "compiling smart contract"
   ./gradlew installDist
   cd build/install
+  cp -r META-INF build/install/PreceptSC/
   rm -r ../../../../docker-compose-files/chaincode/PreceptSC
   cp -r PreceptSC ../../../../docker-compose-files/chaincode/PreceptSC
+
 
   printPink "running script to install smartcontract on peer container"
   #run script installSC on container named cli and redirect error to output
