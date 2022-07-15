@@ -6,13 +6,27 @@ deploy_Network=false
 run_ChainREST=false
 run_Bexplorer=false
 DEFAULT_PWD=$(pwd)
+#function to print argument in colour pink
+function printPink {
+  echo -e "\e[35m$1\e[0m"
+}
 
+# function to print help
+function printHelp {
+  echo "Usage: ./network.sh [-h] [-crypto] [-installSC] [-deploy]"
+  echo "  -h: Prints help"
+  echo "  -crypto: Generates crypto material"
+  echo "  -installSC: Compiles and installs the Smart Contract(PRECECTSC)"
+  echo "  -deploy: Deploys the network (to delete existing network run -crypto and the script will understand you want to delete everything and start from zero)"
+  echo "  -a: (all): Generates crypto material and installs the Smart Contract and deploys the network"
+}
 
 chmod -R 766 * #rwx rw rw
 # test if crypto-config folder exists
 if [ ! -d "crypto-config" ]; then
     generate_crypto=true
 fi
+
 
 
 # parse flags
@@ -60,15 +74,6 @@ while [[ $# -ge 1 ]] ; do
   shift
 done
 
-# function to print help
-function printHelp {
-  echo "Usage: ./network.sh [-h] [-crypto] [-installSC] [-deploy]"
-  echo "  -h: Prints help"
-  echo "  -crypto: Generates crypto material"
-  echo "  -installSC: Compiles and installs the Smart Contract(PRECECTSC)"
-  echo "  -deploy: Deploys the network (to delete existing network run -crypto and the script will understand you want to delete everything and start from zero)"
-  echo "  -a: (all): Generates crypto material and installs the Smart Contract and deploys the network"
-}
 
 
 
@@ -207,7 +212,3 @@ if [ "$run_ChainREST" = true ]; then
     bash run-chain-REST.sh
 fi
 
-#function to print argument in colour pink
-function printPink {
-  echo -e "\e[35m$1\e[0m"
-}
