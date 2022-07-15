@@ -112,7 +112,7 @@ public final class PreceptEventSaver implements ContractInterface {
         selectorJSON = new JSONObject().put("selector",
                         selectorJSON)
                 .put("use_index", "_design/indexTimedlimitDoc") // index descendente por timestamp solo 1 respuesta
-                .put("limit", 1)
+                .put("limit", 1);
 //                .put("sort", List.of(new JSONObject().put("timestamp.value", "desc")));
         String s = selectorJSON.toString();
         //HashMap<String, String> results = new HashMap<>();
