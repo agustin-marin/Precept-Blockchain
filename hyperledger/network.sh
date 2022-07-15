@@ -13,13 +13,17 @@ function printPink {
 
 # function to print help
 function printHelp {
-  echo "Usage: ./network.sh [-h] [-crypto] [-installSC] [-deploy]"
-  echo "  -h: Prints help"
-  echo "  -crypto: Generates crypto material"
-  echo "  -installSC: Compiles and installs the Smart Contract(PRECECTSC)"
-  echo "  -deploy: Deploys the network (to delete existing network run -crypto and the script will understand you want to delete everything and start from zero)"
-  echo "  -a: (all): Generates crypto material and installs the Smart Contract and deploys the network"
+  printPink "Usage: ./network.sh [OPTION]..."
+  printPink "Run the network and chain-REST containers"
+  printPink "  -h: Prints help"
+  printPink "  -crypto: Generates crypto material"
+  printPink "  -installSC: Compiles and installs the Smart Contract(PRECECTSC)"
+  printPink "  -deploy: Deploys the network (to delete existing network run -crypto and the script will understand you want to delete everything and start from zero)"
+  printPink "  -rest:    run the chain-REST container"
+  printPink "  -explorer:     run the bexplorer container"
+  printPink "  -a: (all): Runs | deploys everything"
 }
+
 
 chmod -R 766 * #rwx rw rw
 # test if crypto-config folder exists
