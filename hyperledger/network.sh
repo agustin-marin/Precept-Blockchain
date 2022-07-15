@@ -3,6 +3,8 @@ clear
 generate_crypto=false
 install_SC=false
 deploy_Network=false
+run_ChainREST=false
+run_Bexplorer=false
 DEFAULT_PWD=$(pwd)
 
 
@@ -37,6 +39,16 @@ while [[ $# -ge 1 ]] ; do
     generate_crypto=true
     deploy_Network=true
     install_SC=true
+    run_ChainREST=true
+    run_Bexplorer=true
+    shift
+    ;;
+    -rest )
+    run_ChainREST=true
+    shift
+    ;;
+    -explorer )
+    run_Bexplorer=true
     shift
     ;;
   * )
@@ -174,6 +186,25 @@ fi
 if [ "$install_SC" = true ]; then
     printPink "Installing smart contract..."
     installSC
+fi
+if [ "$run_ChainREST" = true ]; then
+    cd $DEFAULT_PWD
+    cd ../ChainREST/scripts
+    printPink "Running ChainREST..."
+    printPink "Generating docker image for ChainREST"
+    bash generate-docker-image.sh
+    printPink "Running docker compose"
+    bash run-chain-REST.sh
+fi
+
+if [ "$run_ChainREST" = true ]; then
+    cd $DEFAULT_PWD
+    cd ../blockchain-explorer/scripts
+    printPink "Dashboard..."
+    printPink "running docker compose"
+    bash generate-docker-image.sh
+    printPink "Running docker compose"
+    bash run-chain-REST.sh
 fi
 
 #function to print argument in colour pink
