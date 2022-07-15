@@ -18,7 +18,7 @@ while [[ $# -ge 1 ]] ; do
   key="$1"
   case $key in
   -h )
-    printHelp $MODE
+    printHelp
     exit 0
     ;;
   -installSC )
