@@ -112,28 +112,28 @@ function generateCryptoConfig {
     echo " grep private key from ChainREST/routes/worker-get.js: " $(grep PRIVATE ../ChainREST/routes/worker-get.js)
     #bash redirect error output to /dev/null
 
-cd $DEFAULT_PWD
+  cd $DEFAULT_PWD
 }
 
 # function to deploy hyperledger fabric blockchain network
 function deployNetwork {
-echo "3- deploy blockchain network"
-#test if crypto-config folder exists, if not, run generateCryptoConfig function
-if [ ! -d "crypto-config" ]; then
-    generateCryptoConfig
-fi
+  echo "3- deploy blockchain network"
+  #test if crypto-config folder exists, if not, run generateCryptoConfig function
+  if [ ! -d "crypto-config" ]; then
+      generateCryptoConfig
+  fi
 
-cd docker-compose-files/scripts
-echo " running script to deploy blockchain network"
-if [ "$generate_crypto" = true ]; then
-  echo "-crypto flag was set, so we will delete everything and start from scratch"
-  bash BorrarYLanzarBlockchain.sh
-else
-  bash ReLanzarBlockchain.sh
-fi
+  cd docker-compose-files/scripts
+  echo " running script to deploy blockchain network"
+  if [ "$generate_crypto" = true ]; then
+    echo "-crypto flag was set, so we will delete everything and start from scratch"
+    bash BorrarYLanzarBlockchain.sh
+  else
+    bash ReLanzarBlockchain.sh
+  fi
 
 
-cd $DEFAULT_PWD
+  cd $DEFAULT_PWD
 }
 
 function installSC {
@@ -146,10 +146,10 @@ function installSC {
   cp -r PreceptSC ../../../../docker-compose-files/chaincode/PreceptSC
 
   echo "running script to install smartcontract on peer container"
-  docker exec -it cli sh scripts/installSC.sh PreceptSC 1 2 > &1 
+  #run script installSC on container named cli and redirect error to output
+  docker exec -it cli "sh scripts/installSC.sh PreceptSC 1" 2>&1 
 
 }
-
 if [ "$generate_crypto" = true ]; then
     echo "Generating crypto material..."
     generateCryptoConfig
