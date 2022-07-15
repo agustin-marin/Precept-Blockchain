@@ -149,6 +149,7 @@ function installSC {
   echo "running script to install smartcontract on peer container"
   #run script installSC on container named cli and redirect error to output
   output=$(docker exec -it cli "sh scripts/installSC.sh PreceptSC 1" 2>&1)
+  echo $output
   # if output contains "but new definition must be sequence" then
   if [[ $output == *"but new definition must be sequence"* ]]; then
     echo "smart contract already installed, adding new version"
