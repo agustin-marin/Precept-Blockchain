@@ -173,7 +173,6 @@ async function queryChaincode(transaction, args) {
     }
 }
 
-debian@orderer:~/Precept-Blockchain/ChainREST$ cat routes/worker-get.js
 const {parentPort} = require('worker_threads');
 const fs = require("fs");
 const {Wallets, X509Identity, GatewayOptions, Gateway} = require("fabric-network");
