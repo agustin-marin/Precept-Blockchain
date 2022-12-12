@@ -172,4 +172,3 @@ async function queryChaincode(transaction, args) {
             ' with arguments: "${args}", error: "${error}"' + error.toString());
     }
 }
-
