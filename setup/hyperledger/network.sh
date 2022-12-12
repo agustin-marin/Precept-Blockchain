@@ -75,6 +75,7 @@ function generateCryptoConfig {
 
     sed  -i -r "$replacepeer" docker-compose-files/docker-compose-orderer-1.yml   
     sed  -i -r "$replaceorderer" docker-compose-files/docker-compose-peer0-org1.yml
+    sed  -i -r "$replaceorderer" docker-compose-files/docker-compose-cli-peer0.yml
 
     cd crypto-config-source/scripts
     echo "1- generate crypto material and config files"
