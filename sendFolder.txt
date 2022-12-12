@@ -1,0 +1,7 @@
+
+receiver(netcat command):
+ nc -l -p 1234 | tar xvfp -
+
+sender (netcat):
+ tar cfp - peer/ | nc -w 3 10.208.211.33  1234
+ tar cfp - [PATH] | nc -w 3 [destination]  1234
