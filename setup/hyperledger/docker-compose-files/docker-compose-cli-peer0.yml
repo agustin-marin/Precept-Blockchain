@@ -14,7 +14,8 @@ services:
     image: hyperledger/fabric-tools:2.4
     tty: true
     stdin_open: true
-
+    extra_hosts:
+      - orderer.odins.com:192.168.1.153
     environment:
 
       - GOPATH=/opt/gopath
