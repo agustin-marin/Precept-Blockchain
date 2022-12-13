@@ -99,7 +99,6 @@ async function execution(reqString) {
     gatewayOptions = await initGatewayOptions(conf);
     await initGateway(conf);
     queryChaincode("publicarJson", [JSON.stringify(body)], {}).then(queryChaincodeResponse => {
-        const {parentPort} = require('worker_threads');
         if (queryChaincodeResponse !== undefined && queryChaincodeResponse !== "undefined")
             parentPort.postMessage("{}"); // publicarJson es una funcion void
     }).catch(error => {
@@ -173,7 +172,6 @@ async function queryChaincode(transaction, args) {
     }
 }
 
-const {parentPort} = require('worker_threads');
 const fs = require("fs");
 const {Wallets, X509Identity, GatewayOptions, Gateway} = require("fabric-network");
 
