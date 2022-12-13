@@ -72,8 +72,9 @@ const conf = {
     },
     identity: {
         mspid: 'Org1MSP', // user
-        certificate:"-----BEGIN CERTIFICATE-----\nMIICIzCCAcqgAwIBAgIQd6HqJkwZngE3FJIkWD549TAKBggqhkjOPQQDAjBvMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEXMBUGA1UEChMOb3JnMS5vZGlucy5jb20xGjAYBgNVBAMTEWNhLm9y\nZzEub2RpbnMuY29tMB4XDTIyMTIxMjEzMzUwMFoXDTMyMTIwOTEzMzUwMFowajEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xDzANBgNVBAsTBmNsaWVudDEdMBsGA1UEAwwUVXNlcjFAb3JnMS5v\nZGlucy5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASfabsjk8LaHf0b/Gma\nQuh45PDzADV9VJb2vIqqbVsOfnlyH91P92v+C4jMv8lxfqt6WoGn5f4UX7qHYloO\n6HEno00wSzAOBgNVHQ8BAf8EBAMCB4AwDAYDVR0TAQH/BAIwADArBgNVHSMEJDAi\ngCDoIkls8d6Lkm+CufwNlm49wzuMb/s+grEcmax7sdSbTjAKBggqhkjOPQQDAgNH\nADBEAiBFdN+NrBKvEZiQvT6F0lic5eYgDSSDgUip6uYeJg2UeAIgbqqHRkXfYxuA\nbMs97Oggd6tqXHpnH4da8hmGMXn+kIk=\n-----END CERTIFICATE-----\n",///
-        privateKey:"-----BEGIN PRIVATE KEY-----\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgBcvseSrFLh1KGdP1\nY8TWgtVVcC0JuI6CrpcWBF0uOrahRANCAASfabsjk8LaHf0b/GmaQuh45PDzADV9\nVJb2vIqqbVsOfnlyH91P92v+C4jMv8lxfqt6WoGn5f4UX7qHYloO6HEn\n-----END PRIVATE KEY-----\n",///
+ certificate: '-----BEGIN CERTIFICATE-----\nMIICJDCCAcqgAwIBAgIQcoLV3IM8+T8NN/QOd+tWpDAKBggqhkjOPQQDAjBvMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEXMBUGA1UEChMOb3JnMS5vZGlucy5jb20xGjAYBgNVBAMTEWNhLm9y\nZzEub2RpbnMuY29tMB4XDTIyMDcwNjEzMzQwMFoXDTMyMDcwMzEzMzQwMFowajEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xDzANBgNVBAsTBmNsaWVudDEdMBsGA1UEAwwUVXNlcjFAb3JnMS5v\nZGlucy5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASoB2lYTbtKa/d8pIG+\nDfTAVWaTudlGZRxI1lKEmrzbNY+/Iaad2j40ms7lM9/eIOGy+gRB3mRM11IlGVFm\nCY2+o00wSzAOBgNVHQ8BAf8EBAMCB4AwDAYDVR0TAQH/BAIwADArBgNVHSMEJDAi\ngCC6ZIU4OsRGoDVPMYUhqHr+IwKVqndvBxj+DxKHntk5CTAKBggqhkjOPQQDAgNI\nADBFAiEA4yKyPMblL3O6OnPZKEDorWBZWS7uFXJwR6Jf5ZMuj7ACIALA6bqS6hCs\nptzq1f+FZ22K9mlggAg4t2WgwBvn+ehp\n-----END CERTIFICATE-----\n',
+
+        privateKey: '-----BEGIN PRIVATE KEY-----\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgGFhU/WpJYgSA4pfJ\nAfCsT98drV+6bpXbHXFoyqPx3kGhRANCAASoB2lYTbtKa/d8pIG+DfTAVWaTudlG\nZRxI1lKEmrzbNY+/Iaad2j40ms7lM9/eIOGy+gRB3mRM11IlGVFmCY2+\n-----END PRIVATE KEY-----\n',
     },
     settings: {
         enableDiscovery: true,
@@ -85,30 +86,40 @@ let contract;
 
 parentPort.once('message', execution);
 
-
 async function execution(reqString) {
     console.log("execution");
 
     let req = JSON.parse(reqString);
 
-    let body = req.body;
+    let entity = req.query.entityid;
+    //let from = "";
+    //let to = "";
+
+    /*if (typeof req.query.from !== 'undefined' && req.query.from) {
+        from = req.query.from;
+    }
+    if (typeof req.query.to !== 'undefined' && req.query.to) {
+        to = req.query.to;
+    }*/
+
     let today = new Date(Date.now());
     let todaystring = today.toISOString();
     let remoteAddress = req.socket.remoteAddress;
-    writeLOG(todaystring, remoteAddress);
+    writeLOG(todaystring, remoteAddress, entity);
     gatewayOptions = await initGatewayOptions(conf);
     await initGateway(conf);
-    queryChaincode("publicarJson", [JSON.stringify(body)], {}).then(queryChaincodeResponse => {
+    queryChaincode("getEvent", [entity], {}).then(queryChaincodeResponse => {
         if (queryChaincodeResponse !== undefined && queryChaincodeResponse !== "undefined")
-            parentPort.postMessage("{}"); // publicarJson es una funcion void
+            console.debug("WORKER: " + typeof queryChaincodeResponse + "  ->  " + JSON.stringify(queryChaincodeResponse.toString()))
+            parentPort.postMessage(queryChaincodeResponse.toString());
     }).catch(error => {
-        console.error("fabconn.publicarJson: " + error.toString())
+        console.error("fabconn.getEvent: " + error.toString())
         throw error;
     });
 }
 
-function writeLOG(todaystring, remoteAddress, body) {
-    fs.appendFile('/tmp/' + todaystring + '.LOG', remoteAddress + ': CHAINAPI:3000/publicarJson' , function (err) {
+function writeLOG(todaystring, remoteAddress, entity) {
+    fs.appendFile('/tmp/' + todaystring + '.LOG', remoteAddress + ': CHAINAPI:3000/getEvent?entityid=' + entity , function (err) {
         if (err) throw err;
         console.log('Saved!');
     });
@@ -157,7 +168,7 @@ async function initGateway(config) {
 
 async function queryChaincode(transaction, args) {
     try {
-        const queryResult = contract.submitTransaction(
+        const queryResult = contract.evaluateTransaction(
             transaction,
             ...args
         );
@@ -171,3 +182,4 @@ async function queryChaincode(transaction, args) {
             ' with arguments: "${args}", error: "${error}"' + error.toString());
     }
 }
+
