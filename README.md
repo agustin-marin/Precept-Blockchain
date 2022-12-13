@@ -17,7 +17,7 @@ chmod +x /usr/local/bin/docker-compose
 ```
 
 ## Generate grypto and services folder
-Inside `setup/hyperledger/` run ``bash network.sh -crypto`. It generates folders for each service:
+Inside `setup/hyperledger/` run `bash network.sh -crypto`. It generates folders for each service:
 ```
 drwxr-xr-x 5 debian debian 4096 Dec 12 15:59 blockchain-explorer
 drwxr-xr-x 9 debian debian 4096 Dec 12 15:59 ChainREST
