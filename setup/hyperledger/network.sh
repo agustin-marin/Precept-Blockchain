@@ -128,7 +128,6 @@ function generateCryptoConfig {
     sed  -i -r "$s2" ../ChainREST/routes/worker-put.js
     sed  -i -r "$s3" ../ChainREST/routes/worker-get.js
     sed  -i -r "$s4" ../ChainREST/routes/worker-put.js 
-  cd $DEFAULT_PWD
 
   echo "generating peer and orderer folder"
   mkdir -p ../../orderer

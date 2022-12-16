@@ -6,10 +6,13 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "boom": "^9.4.6",
+    "express": "^4.17.1",
+    "joi": "^17.2.1",
+    "threads": "^5.5.0",
     "axios": "0.24.0",
     "cookie-parser": "^1.4.6",
     "debug": "~2.6.9",
-    "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "lodash": "4.3.0",
     "morgan": "~1.9.1",
