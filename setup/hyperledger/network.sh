@@ -129,10 +129,15 @@ function generateCryptoConfig {
     sed  -i -r "$s3" ../ChainREST/routes/worker-get.js
     sed  -i -r "$s4" ../ChainREST/routes/worker-put.js 
 
+
   echo "generating peer and orderer folder"
+  
+  rm -rf ../../orderer
+  rm -rf ../../peer
   mkdir -p ../../orderer
   mkdir -p ../../peer
   echo "moving docker-compose files to peer and orderer folder"
+ 
   cp -r docker-compose-files/ ../../orderer
   cp -r docker-compose-files/ ../../peer
   cp -r chaincode ../../peer
