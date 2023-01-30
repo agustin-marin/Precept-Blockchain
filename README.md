@@ -25,7 +25,7 @@ Note: If the container gives an error it is possible that you may be trying to c
     - method: GET
     - body: empty
     - params: [entityid]
-    - example `http://155.54.95.201:3000/chain/event?entityid=urn:ngsi-ld:IoTGateway:SMARTHOUSE-MONITORING-01`
+    - example `http://IP:3000/chain/event?entityid=urn:ngsi-ld:IoTGateway:SMARTHOUSE-MONITORING-01`
   - `IP:3000/chain/publish`
     - method: POST
     - body:JSON to publish (example)
@@ -64,6 +64,4 @@ Note: If the container gives an error it is possible that you may be trying to c
     }
     }
     ```
-    - example: `http://155.54.95.201:3000/chain/publish` (body above)
-
-- `Remote server`: A remote server with the described services is on `155.54.95.201`
+    - example: `http://IP:3000/chain/publish` (body above)
