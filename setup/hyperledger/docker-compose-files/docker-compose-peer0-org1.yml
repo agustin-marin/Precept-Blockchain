@@ -66,6 +66,7 @@ services:
   couchdb.odins.com:
     container_name: couchdb
     image: couchdb:2.1.1
+    restart: always
     labels:
       service: hyperledger-fabric
     # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password

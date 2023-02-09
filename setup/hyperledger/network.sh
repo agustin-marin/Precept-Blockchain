@@ -5,6 +5,7 @@ install_SC=false
 deploy_Network=false
 run_ChainREST=false
 run_Bexplorer=false
+move_config=false
 DEFAULT_PWD=$(pwd)
 #function to print argument in colour pink
 
@@ -38,6 +39,10 @@ while [[ $# -ge 1 ]] ; do
     ;;
   -crypto )
     generate_crypto=true
+    shift
+    ;;
+  -mvconfig )
+    move_config=true
     shift
     ;;
   * )
@@ -90,6 +95,10 @@ function generateCryptoConfig {
     echo
     echo "Generate crypto material completed."
 
+    moveConfig
+}
+
+function moveConfig {
     cd $DEFAULT_PWD
     ls -l crypto-config 
     echo "2- put files on necessary directories"
@@ -99,23 +108,7 @@ function generateCryptoConfig {
     echo "copying crypto to ChainREST and blockchain explorer folders"
     cp -r crypto-config ../ChainREST
     cp -r crypto-config ../blockchain-explorer
-
-
-
-
-# borrar ficheros que son del peer en orderer y viceversa
-
-    rm -rf ../../orderer/docker-compose-files/scripts/runPeer.sh ../../orderer/docker-compose-files/scripts/crearCanal.sh ../../orderer/docker-compose-files/scripts/installSC.sh
-    rm -rf ../../peer/docker-compose-files/scripts/runOrderer+.sh ../../peer/docker-compose-files/scripts/borrarTodo.sh
-    rm -rf ../../orderer/docker-compose-files/docker-compose-peer0-org1.yml
-    rm -rf ../../orderer/docker-compose-files/docker-compose-cli-peer0.yml
-    rm -rf ../../peer/docker-compose-files/docker-compose-ca-org1.yml
-    rm -rf ../../peer/docker-compose-files/docker-compose-orderer-1.yml
-
-    rm -rf ../../orderer/docker-compose-files/chaincode
-
-
-    echo "copying new user X.509 identity to ChainREST files"
+      echo "copying new user X.509 identity to ChainREST files"
     #replace line break of a file for a "\n" character in a new file
     certificate=$( sed  -z -e 's|\n|\\\\n|g' ./crypto-config/peerOrganizations/org1.odins.com/users/User1@org1.odins.com/msp/signcerts/User1@org1.odins.com-cert.pem)
     priv=$(sed  -z -e 's|\n|\\\\n|g' ./crypto-config/peerOrganizations/org1.odins.com/users/User1@org1.odins.com/msp/keystore/priv_sk)
@@ -143,10 +136,25 @@ function generateCryptoConfig {
   cp -r chaincode ../../peer
   cp -r ../blockchain-explorer/ ../../ 
   cp -r ../ChainREST/ ../../ 
-}
 
+  # borrar ficheros que son del peer en orderer y viceversa
+
+    rm -rf ../../orderer/docker-compose-files/scripts/runPeer.sh ../../orderer/docker-compose-files/scripts/crearCanal.sh ../../orderer/docker-compose-files/scripts/installSC.sh
+    rm -rf ../../peer/docker-compose-files/scripts/runOrderer+.sh ../../peer/docker-compose-files/scripts/borrarTodo.sh
+    rm -rf ../../orderer/docker-compose-files/docker-compose-peer0-org1.yml
+    rm -rf ../../orderer/docker-compose-files/docker-compose-cli-peer0.yml
+    rm -rf ../../peer/docker-compose-files/docker-compose-ca-org1.yml
+    rm -rf ../../peer/docker-compose-files/docker-compose-orderer-1.yml
+
+    rm -rf ../../orderer/docker-compose-files/chaincode
+}
 
 if [ "$generate_crypto" = true ]; then
     echo "Generating crypto material..."
     generateCryptoConfig
+fi
+
+if [ "$move_config" = true ]; then
+    echo "Moving config files..."
+    moveConfig
 fi

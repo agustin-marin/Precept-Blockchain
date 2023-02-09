@@ -19,6 +19,8 @@ services:
       - DATABASE_DATABASE=fabricexplorer
       - DATABASE_USERNAME=hppoc
       - DATABASE_PASSWORD=password
+    restart: always
+
     healthcheck:
       test: "pg_isready -h localhost -p 5432 -q -U postgres"
       interval: 30s
@@ -60,3 +62,4 @@ services:
       - ca.org1.odins.com:192.168.1.153
     networks:
       - local
+    entrypoint:  sh -c "sleep 120s && npm run app-start && tail -f /dev/null"

@@ -8,6 +8,7 @@ services:
   ca.org1.odins.com:
     image: hyperledger/fabric-ca
     container_name: ca.org1.odins.com
+    restart: always
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-org1

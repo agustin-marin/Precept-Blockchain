@@ -1,0 +1,107 @@
+{
+	"info": {
+		"_postman_id": "03222de4-17f6-48ae-a1e3-a5aa0233c1d6",
+		"name": "PRECEPT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23987288"
+	},
+	"item": [
+		{
+			"name": "post json",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200), {\r",
+							"    message: \"chain/publish ha dado error: \" + pm.response.code + \": \"+ pm.response.body\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"urn:ngsi-ld:IoTGateway:Simulation-BuildingState05-Test\",\r\n    \"type\": \"IoTGateway\",\r\n    \"t_in\": {\r\n        \"type\": \"Property\",\r\n        \"value\": \"22.84\"\r\n    },\r\n    \"rh_in\": {\r\n        \"type\": \"Property\",\r\n        \"value\": \"50.65\"\r\n    },\r\n    \"non_shiftable_load\": {\r\n        \"type\": \"Property\",\r\n        \"value\": \"7.9\"\r\n    },\r\n    \"solar_gen\": {\r\n        \"type\": \"Property\",\r\n        \"value\": \"0.0\"\r\n    },\r\n    \"cooling_storage_soc\": {\r\n        \"type\": \"Property\",\r\n        \"value\": \"0.0\"\r\n    },\r\n    \"dhw_storage_soc\": {\r\n        \"type\": \"Property\",\r\n        \"value\": \"0.1080764472875744\"\r\n    },\r\n    \"electrical_storage_soc\": {\r\n        \"type\": \"Property\",\r\n        \"value\": \"0.0\"\r\n    },\r\n    \"net_electricity_consumption\": {\r\n        \"type\": \"Property\",\r\n        \"value\": \"8.2065\"\r\n    },\r\n    \"carbon_intensity\": {\r\n        \"type\": \"Property\",\r\n        \"value\": \"0.543740757\"\r\n    },\r\n    \"reward\": {\r\n        \"type\": \"Property\",\r\n        \"value\": \"-373.14957\"\r\n    },\r\n    \"TimeInstant\": {\r\n        \"type\": \"Property\",\r\n        \"value\": \"2022-11-23T10:58:50.514Z\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "155.54.95.201:3000/chain/publish",
+					"host": [
+						"155",
+						"54",
+						"95",
+						"201"
+					],
+					"port": "3000",
+					"path": [
+						"chain",
+						"publish"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "events",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200), {\r",
+							"    message: \"chain/events ha dado error: \" + pm.response.code + \": \"+ pm.response.body\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "155.54.95.201:3000/chain/events?entityid=urn:ngsi-ld:IoTGateway:Simulation-BuildingState05-Test",
+					"host": [
+						"155",
+						"54",
+						"95",
+						"201"
+					],
+					"port": "3000",
+					"path": [
+						"chain",
+						"events"
+					],
+					"query": [
+						{
+							"key": "entityid",
+							"value": "urn:ngsi-ld:IoTGateway:Simulation-BuildingState05-Test"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
