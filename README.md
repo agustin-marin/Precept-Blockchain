@@ -24,7 +24,7 @@ bash network.sh -installSC
     - method: GET
     - body: empty
     - params: [entityid]
-    - example `http://IP:3000/chain/event?entityid=urn:ngsi-ld:IoTGateway:SMARTHOUSE-MONITORING-01`
+    - example `http://IP:3000/chain/events?entityid=urn:ngsi-ld:IoTGateway:SMARTHOUSE-MONITORING-01`
   - `IP:3000/chain/publish`
     - method: POST
     - body:JSON to publish (example)
