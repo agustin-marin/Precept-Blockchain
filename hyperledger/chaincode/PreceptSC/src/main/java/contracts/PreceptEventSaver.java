@@ -87,8 +87,18 @@ public final class PreceptEventSaver implements ContractInterface {
     public void publicarJson(Context ctx, final String json) {
         ChaincodeStub stub = ctx.getStub();
         JSONObject event = new JSONObject(json);
-        stub.putStringState(event.getString("id") + "-" + event.getJSONObject("timestamp").getString("value"),
-                json);                                                              // sin procesar, guardo el evento o
+        JSONObject timestamp;
+        try {
+                timestamp = event.getJSONObject("timestamp");
+                System.out.println("timestamp: "+ timestamp.toString());
+        } catch (Exception e) {
+                timestamp = event.getJSONObject("TimeInstant");
+                System.out.println("timeinstant: "+ timestamp.toString());
+                event = event.put("timestamp", timestamp);
+                System.out.println("event: "+ event.toString());
+        }
+        stub.putStringState(event.getString("id") + "-" + timestamp.getString("value"),
+                event.toString());                                                              // sin procesar, guardo el evento o
         // entidad con clave
         // id - timestamp.value
     }
@@ -113,7 +123,7 @@ public final class PreceptEventSaver implements ContractInterface {
                         selectorJSON)
                 .put("use_index", "_design/indexTimedlimitDoc") // index descendente por timestamp solo 1 respuesta
                 .put("limit", 1);
-//                .put("sort", List.of(new JSONObject().put("timestamp.value", "desc")));
+               // .put("sort", List.of(new JSONObject().put("timestamp.value", "desc")));
         String s = selectorJSON.toString();
         //HashMap<String, String> results = new HashMap<>();
         JSONObject results = new JSONObject();
