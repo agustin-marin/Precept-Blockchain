@@ -60,3 +60,4 @@ services:
 #      - ca.org1.odins.com:127.0.0.1
     networks:
       - local
+    entrypoint:  sh -c "sleep 30s && npm run app-start && tail -f /dev/null"
