@@ -56,12 +56,14 @@ router.get('/events', async function (req, res, next) {
 function start_worker(worker, res, req) {
     worker.on('message', (queryChaincodeResponseString) => {
         let queryChaincodeResponse = JSON.parse(queryChaincodeResponseString);
-        console.debug("workerResponse: "+ typeof queryChaincodeResponse+ " -> " +queryChaincodeResponse);
+        console.debug("worker "+worker.threadId+ ": "+ typeof queryChaincodeResponse+ " -> " +queryChaincodeResponse);
         if (typeof queryChaincodeResponse !== 'undefined'){
             res.status(200).send(queryChaincodeResponse.queryResult)}
         else {
             res.status(500).send("posible error de TIMEOUT");
         }
+        res.end();
+        worker.terminate()
     });
     worker.on('error', (error) => {
         console.log('FABRIC ERROR:-' + error);
